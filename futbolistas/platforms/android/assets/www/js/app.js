@@ -1,33 +1,35 @@
 // Utlizaremos una función anónima autoejecutable de modo que nuestras variables no sean globales. Más info: http://www.formandome.es/javascript/objetos-variables-funciones-javascript/
 
-(function () {
-    /* ---------------------------------- Variables locales ---------------------------------- */
-    //var adapter = new WebSqlAdapter();
-    //var adapter = new MemoryAdapter();
-    //var adapter = new JSONPAdapter();
-    var adapter = new LocalStorageAdapter();
-    adapter.inicializar().done(function () {
-        console.log("Inicializado: Adaptador de datos");
-    });
+(function() {
+  /* ---------------------------------- Variables locales ---------------------------------- */
+  //var adapter = new WebSqlAdapter();
+  //var adapter = new MemoryAdapter();
+  //var adapter = new JSONPAdapter();
+  var adapter = new LocalStorageAdapter();
+  adapter.inicializar().done(function() {
+    console.log("Inicializado: Adaptador de datos");
+    // $('body').html(new HomeView(adapter).render());
+    route();
+  });
 
-    /* --------------------------------- Registro de eventos -------------------------------- */
-    $('#btnBuscar').on('keyup', encontrarPorNombre);
-    $('#btnAyuda').on('click', function() {
-        alert("Una ayuda nunca viene mal :-)")
-    });
+  var futbolistaURL = /^#futbolistas\/(\d{1,})/;
 
+  /* --------------------------------- Registro de eventos -------------------------------- */
+  $(window).on('hashchange', route);
 
-    /* ---------------------------------- Funciones locales ---------------------------------- */
-    function encontrarPorNombre() {
-        adapter.encontrarPorNombre($('#btnBuscar').val()).done(function (futbolistas) {
-            var l = futbolistas.length;
-            var e;
-            $('#lstFutbolistas').empty();
-            for (var i = 0; i < l; i++) {
-                e = futbolistas[i];
-                $('#lstFutbolistas').append('<li><a href="#futbolistas/' + e.id + '">' + e.nombre + ' ' + e.apellido + '</a></li>');
-            }
-        });
+  /* ---------------------------------- Funciones locales ---------------------------------- */
+  function route() {
+    var hash = window.location.hash;
+    if (!hash) {
+      $('body').html(new HomeView(adapter).render());
+      return;
     }
+    var match = hash.match(futbolistaURL);
+    if (match) {
+      adapter.encontrarPorId(Number(match[1])).done(function(futbolista) {
+        $('body').html(new JugadorView(adapter, futbolista).render());
+      });
+    }
+  }
 
 }());
