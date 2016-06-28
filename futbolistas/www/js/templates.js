@@ -1,7 +1,7 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['home'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"topcoat-navigation-bar\">\n  <div class=\"topcoat-navigation-bar__item center full\">\n      <h1 class=\"topcoat-navigation-bar__title\">Futbolistas</h1>\n  </div>\n</div>\n<div class=\"search-bar\">\n<input type=\"search\" value=\"\" placeholder=\"buscar\" class=\"topcoat-search-input\" id=\"btnBuscar\">\n</div>\n<div class=\"topcoat-list\">\n  <ul class=\"topcoat-list__container list\" id=\"lstFutbolistas\">\n</ul>\n</div>";
+    return "<div class=\"topcoat-navigation-bar\">\n  <div class=\"topcoat-navigation-bar__item center full\">\n      <h1 class=\"topcoat-navigation-bar__title\">Futbolistas</h1>\n  </div>\n</div>\n<div class=\"search-bar\">\n<input type=\"search\" value=\"\" placeholder=\"buscar\" class=\"topcoat-search-input\" id=\"btnBuscar\">\n</div>\n<div class=\"topcoat-list scroller\">\n  <ul class=\"topcoat-list__container list\" id=\"lstFutbolistas\">\n</ul>\n</div>";
 },"useData":true});
 templates['listaJugadores'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : {}, alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
