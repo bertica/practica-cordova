@@ -8,12 +8,28 @@
   var adapter = new LocalStorageAdapter();
   adapter.inicializar().done(function() {
     console.log("Inicializado: Adaptador de datos");
-    $('body').html(new HomeView(adapter).render());
+    // $('body').html(new HomeView(adapter).render());
+    route();
   });
 
-  /* --------------------------------- Registro de eventos -------------------------------- */
+  var futbolistaURL = /^#futbolistas\/(\d{1,})/;
 
+  /* --------------------------------- Registro de eventos -------------------------------- */
+  $(window).on('hashchange', route);
 
   /* ---------------------------------- Funciones locales ---------------------------------- */
+  function route() {
+    var hash = window.location.hash;
+    if (!hash) {
+      $('body').html(new HomeView(adapter).render());
+      return;
+    }
+    var match = hash.match(futbolistaURL);
+    if (match) {
+      adapter.encontrarPorId(Number(match[1])).done(function(futbolista) {
+        $('body').html(new JugadorView(adapter, futbolista).render());
+      });
+    }
+  }
 
 }());
