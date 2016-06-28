@@ -12,41 +12,17 @@
   });
 
   /* --------------------------------- Registro de eventos -------------------------------- */
-  
-  /*document.addEventListener('deviceready', function() {
-    if (navigator.notification) {
-      // Si disponemos de notificaciones nativas, sobreescribimos el alert del navegador:
-      window.alert = function(message) {
-        navigator.notification.alert(
-          message, // mensaje
-          null, // función de callback
-          "Workshop", // título
-          'OK' // Nombre botón
-        );
-      };
-    }
-  }, false);*/
+
 
   /* ---------------------------------- Funciones locales ---------------------------------- */
   function encontrarPorNombre() {
     adapter.encontrarPorNombre($('#btnBuscar').val()).done(function(futbolistas) {
-      var l = futbolistas.length;
-      var e;
-      $('#lstFutbolistas').empty();
-      for (var i = 0; i < l; i++) {
-        e = futbolistas[i];
-        $('#lstFutbolistas').append('<li><a href="#futbolistas/' + e.id + '">' + e.nombre + ' ' + e.apellido + '</a></li>');
-      }
+      $("#lstFutbolistas").html(Handlebars.templates.listaJugadores(futbolistas));
     });
   }
 
   function renderHomeView() {
-    var html = "<header>" +
-      "<h1>Futbolistas</h1>" +
-      "</header>" +
-      "<input id='btnBuscar' type='search' placeholder='Introduce futbolista'/>" +
-      "<ul id='lstFutbolistas'></ul>"
-    $('body').html(html);
+    $('body').html(Handlebars.templates.home());
     $('#btnBuscar').on('keyup', encontrarPorNombre);
   }
 
