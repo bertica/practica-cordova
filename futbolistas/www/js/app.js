@@ -8,22 +8,12 @@
   var adapter = new LocalStorageAdapter();
   adapter.inicializar().done(function() {
     console.log("Inicializado: Adaptador de datos");
-    renderHomeView();
+    $('body').html(new HomeView(adapter).render());
   });
 
   /* --------------------------------- Registro de eventos -------------------------------- */
 
 
   /* ---------------------------------- Funciones locales ---------------------------------- */
-  function encontrarPorNombre() {
-    adapter.encontrarPorNombre($('#btnBuscar').val()).done(function(futbolistas) {
-      $("#lstFutbolistas").html(Handlebars.templates.listaJugadores(futbolistas));
-    });
-  }
-
-  function renderHomeView() {
-    $('body').html(Handlebars.templates.home());
-    $('#btnBuscar').on('keyup', encontrarPorNombre);
-  }
 
 }());
